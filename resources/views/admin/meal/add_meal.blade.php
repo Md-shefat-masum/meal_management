@@ -17,7 +17,7 @@
                                 <select class="form-select select2 meal_user" name="user_id" aria-label="Default select example">
                                     <option selected>Open this User menu</option>
                                     @foreach (App\Models\User::get() as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : ""}}>{{$user->mobile}} --> {{ $user->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -26,9 +26,8 @@
                             <label class="col-sm-2 col-form-label" for="Serial">quantity</label>
                             <div class="col-sm-10">
                                 <div class="input-group input-group-merge">
-                                    <input type="number" name="quantity" id="phone" class="form-control"
-                                        placeholder="number" aria-label="john.doe"
-                                        aria-describedby="basic-default-phone" />
+                                    <input type="number" name="quantity" id="quantity" class="form-control"
+                                        placeholder="quantity" value="1" />
                                 </div>
                                 @error('quantity')
                                     <span class="text-danger">{{ $message }}</span>
@@ -56,3 +55,4 @@
         </div>
     </div>
 @endsection
+

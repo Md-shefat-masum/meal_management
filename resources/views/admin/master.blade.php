@@ -45,14 +45,19 @@
     <link rel="stylesheet" href="/adminAsset/vendor/libs/node-waves/node-waves.css" />
     <link rel="stylesheet" href="/adminAsset/vendor/libs/typeahead-js/typeahead.css" />
     <link rel="stylesheet" href="/adminAsset/vendor/libs/select2/select2.css" />
+    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
     <script src="/adminAsset/vendor/js/helpers.js"></script>
     <script src="/adminAsset/vendor/js/template-customizer.js"></script>
     <script src="/adminAsset/js/config.js"></script>
 
 
+
+
     {{-- push link  --}}
     <script src=(node_modules/push.js/bin/push.min.js,public/adminAsset/js/push.min.js)></script>
     <script src="/adminAsset/js/push.min.js"></script>
+
+    @stack('css')
 
 </head>
 
@@ -144,15 +149,7 @@
                     </footer> --}}
                     <!-- / Footer -->
 
-                    <script>
-                        (function($) {
 
-                        }(jQuery));
-                        push.create('booked!', {
-                            Body: 'welcome'
-                            timeout: 5000
-                        });
-                    </script>
 
                     <div class="content-backdrop fade"></div>
                 </div>
@@ -181,21 +178,21 @@
     {{-- <script src="/adminAsset/vendor/libs/hammer/hammer.js"></script> --}}
     {{-- <script src="/adminAsset/vendor/libs/i18n/i18n.js"></script> --}}
     <script src="/adminAsset/vendor/libs/typeahead-js/typeahead.js"></script>
-
     <script src="/adminAsset/vendor/js/menu.js"></script>
 
     <!-- endbuild -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-
+    <script src="{{ asset('js/sweat_alert.js')}}"></script>
     <!-- Main JS -->
     <script src="/adminAsset/js/main.js"></script>
+    {!! Toastr::message() !!}
 
     <!-- Page JS -->
-
-
 
     @yield('scripts')
     @stack('cjs')
@@ -204,7 +201,29 @@
         $(document).ready(function() {
             $('.meal_user').select2();
         });
+
+        // toaster by sweat alert
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "center",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+        });
+        window.toaster = function toaster(message="success",icon="success") {
+            Toast.fire({
+                icon: icon,
+                title: message,
+            });
+        };
+
     </script>
+    @stack('end_js')
+
 </body>
 
 </html>
